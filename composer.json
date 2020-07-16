@@ -1,0 +1,30 @@
+{
+    "name": "michaelpetri/typed-input",
+    "description": "Type safe input wrapper for symfony input",
+    "authors": [
+        {
+            "name": "Michael Petri",
+            "email": "mpetri@lyska.io"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^7.0",
+        "symfony/console": "^4.0",
+        "webmozart/assert": "^1.8"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.2",
+        "roave/security-advisories": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "MichaelPetri\\TypedInput\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MichaelPetri\\TypedInput\\Tests\\": "tests/"
+        }
+    }
+}

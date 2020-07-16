@@ -1,0 +1,19 @@
+image: php:7
+
+cache:
+  paths:
+    - vendor/
+
+before_script:
+  - apt-get update -yqq
+  - apt-get install -yqq git zip gzip
+  # Install & enable Xdebug for code coverage reports
+  - pecl install xdebug
+  - docker-php-ext-enable xdebug
+  # Install and run Composer
+  - curl -sS https://getcomposer.org/installer | php
+  - php composer.phar install
+
+test:
+  script:
+    - vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
