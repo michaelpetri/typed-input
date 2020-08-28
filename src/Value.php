@@ -6,8 +6,14 @@ use Webmozart\Assert\Assert;
 
 final class Value
 {
+    /**
+     * @var string|int|float|string[]|int[]|float[]
+     */
     private $value;
 
+    /**
+     * @param string|int|float|string[]|int[]|float[] $value
+     */
     public function __construct($value)
     {
         $this->value = $value;
@@ -22,7 +28,8 @@ final class Value
     }
 
     /**
-     * @return array<int, string>|string[]
+     * @psalm-return list<non-empty-string>
+     * @return string[]
      */
     public function asNonEmptyStrings(): array
     {
@@ -34,13 +41,24 @@ final class Value
         );
         Assert::allStringNotEmpty($values);
 
-        return $values;
+        return array_values($values);
     }
 
+
+    /** @psalm-return non-empty-string */
     public function asNonEmptyString(): string
     {
         $value = (string) $this->value;
         Assert::stringNotEmpty($value);
+
+        return $value;
+    }
+
+    /** @psalm-return non-empty-string|null */
+    public function asNonEmptyStringOrNull(): ?string
+    {
+        $value = null !== $this->value ? (string) $this->value : null;
+        Assert::nullOrStringNotEmpty($value);
 
         return $value;
     }
