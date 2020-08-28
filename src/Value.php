@@ -4,70 +4,174 @@ namespace MichaelPetri\TypedInput;
 
 use Webmozart\Assert\Assert;
 
+/**
+ * @psalm-immutable
+ */
 final class Value
 {
-    /**
-     * @var string|int|float|string[]|int[]|float[]
-     */
+    /** @var string|string[]|bool|null */
     private $value;
 
     /**
-     * @param string|int|float|string[]|int[]|float[] $value
+     * @param string|string[]|bool|null $value
      */
     public function __construct($value)
     {
         $this->value = $value;
     }
 
-    public function asInteger(): int
+    /**
+     * @psalm-pure
+     */
+    public function asBoolean(): bool
     {
-        $value = (int) $this->value;
-        Assert::integer($value);
+        $value = $this->asBooleanOrNull();
+        Assert::notNull($value);
 
         return $value;
     }
 
     /**
-     * @psalm-return list<non-empty-string>
-     * @return string[]
+     * @psalm-pure
      */
-    public function asNonEmptyStrings(): array
+    public function asBooleanOrNull(): ?bool
     {
-        $values = array_map(
-            static function ($value): string {
-                return (string) $value;
-            },
-            $this->value
-        );
-        Assert::allStringNotEmpty($values);
-
-        return array_values($values);
-    }
-
-
-    /** @psalm-return non-empty-string */
-    public function asNonEmptyString(): string
-    {
-        $value = (string) $this->value;
-        Assert::stringNotEmpty($value);
+        $value = $this->value;
+        Assert::nullOrBoolean($value);
 
         return $value;
     }
 
-    /** @psalm-return non-empty-string|null */
+    /**
+     * @psalm-pure
+     */
+    public function asInteger(): int
+    {
+        $value = $this->asIntegerOrNull();
+        Assert::notNull($value);
+
+        return $value;
+    }
+
+    /**
+     * @psalm-pure
+     */
+    public function asIntegerOrNull(): ?int
+    {
+        $value = $this->value;
+        Assert::nullOrIntegerish($value);
+
+        return null !== $value
+            ? (int) $value
+            : null;
+    }
+
+    /**
+     * @psalm-pure
+     *
+     * @psalm-return positive-int
+     */
+    public function asPositiveInteger(): int
+    {
+        $value = $this->asPositiveIntegerOrNull();
+        Assert::notNull($value);
+
+        return $value;
+    }
+
+    /**
+     * @psalm-pure
+     *
+     * @psalm-return positive-int|null
+     * @psalm-suppress MoreSpecificReturnType
+     */
+    public function asPositiveIntegerOrNull(): ?int
+    {
+        $value = $this->asIntegerOrNull();
+        Assert::nullOrGreaterThan($value, 0);
+
+        /** @psalm-suppress LessSpecificReturnStatement */
+        return $value;
+    }
+
+    /**
+     * @psalm-pure
+     */
+    public function asString(): string
+    {
+        $value = $this->asStringOrNull();
+        Assert::string($value);
+
+        return $value;
+    }
+
+    /**
+     * @psalm-pure
+     */
+    public function asStringOrNull(): ?string
+    {
+        $value = $this->value;
+
+        if (is_numeric($value)) {
+            $value = (string) $value;
+        }
+
+        Assert::nullOrString($value);
+
+        return $value;
+    }
+
+    /**
+     * @psalm-pure
+     *
+     * @psalm-return non-empty-string
+     */
+    public function asNonEmptyString(): string
+    {
+        $value = $this->asNonEmptyStringOrNull();
+        Assert::notNull($value);
+
+        return $value;
+    }
+
+    /**
+     * @psalm-pure
+     * @psalm-return non-empty-string|null
+     */
     public function asNonEmptyStringOrNull(): ?string
     {
-        $value = null !== $this->value ? (string) $this->value : null;
+        $value = $this->value;
+
+        if (is_numeric($value)) {
+            $value = (string) $value;
+        }
+
         Assert::nullOrStringNotEmpty($value);
 
         return $value;
     }
 
-    public function asString(): string
+    /**
+     * @psalm-pure
+     *
+     * @psalm-return list<non-empty-string>
+     * @return string[]
+     */
+    public function asNonEmptyStrings(): array
     {
-        $value = (string) $this->value;
-        Assert::string($value);
+        $values = $this->value;
 
-        return $value;
+        Assert::isArray($values);
+
+        $values = array_map(
+            static function ($value) {
+                return is_numeric($value) ? (string) $value : $value;
+            },
+            $values
+        );
+
+        Assert::allStringNotEmpty($values);
+
+        return array_values($values);
     }
 }

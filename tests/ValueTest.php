@@ -10,80 +10,151 @@ use PHPUnit\Framework\TestCase;
 
 final class ValueTest extends TestCase
 {
-
-    public function testAsNonEmptyString(): void
+    /** @dataProvider booleanProvider */
+    public function testAsBoolean($raw, $expected): void
     {
-        $raw = 'non-empty-string';
         $value = new Value($raw);
-        self::assertEquals($raw, $value->asNonEmptyString());
-
-        $raw = ' ';
-        $value = new Value($raw);
-        self::assertEquals($raw, $value->asNonEmptyString());
+        self::assertEquals($expected, $value->asBoolean());
     }
 
-    public function testFailAsNonEmptyString(): void
+    /** @dataProvider booleanOrNullProvider */
+    public function testAsBooleanOrNull($raw, $expected): void
     {
-        $value = new Value('');
+        $value = new Value($raw);
+        self::assertEquals($expected, $value->asBooleanOrNull());
+    }
+
+    /** @dataProvider integerProvider */
+    public function testAsInteger($raw, $expected): void
+    {
+        $value = new Value($raw);
+        self::assertEquals($expected, $value->asInteger());
+    }
+
+    /** @dataProvider integerProvider */
+    public function testAsIntegerOrNull($raw, $expected): void
+    {
+        $value = new Value($raw);
+        self::assertEquals($expected, $value->asIntegerOrNull());
+    }
+
+    /** @dataProvider stringProvider */
+    public function testAsString($raw, $expected): void
+    {
+        $value = new Value($raw);
+        self::assertEquals($expected, $value->asString());
+    }
+
+    /** @dataProvider stringOrNullProvider */
+    public function testAsStringOrNull($raw, $expected): void
+    {
+        $value = new Value($raw);
+        self::assertEquals($expected, $value->asStringOrNull());
+    }
+
+    /** @dataProvider nonEmptyStringProvider */
+    public function testAsNonEmptyString($raw, $expected): void
+    {
+        $value = new Value($raw);
+        self::assertEquals($expected, $value->asStringOrNull());
+    }
+
+    /** @dataProvider emptyStringOrNullProvider */
+    public function testFailAsNonEmptyString($raw): void
+    {
+        $value = new Value($raw);
         $this->expectException(InvalidArgumentException::class);
         $value->asNonEmptyString();
     }
 
-    public function testAsNonEmptyStringOrNull(): void
+    /** @dataProvider nonEmptyStringOrNullProvider */
+    public function testAsNonEmptyStringOrNull($raw, $expected): void
     {
-        $raw = 'non-empty-string';
         $value = new Value($raw);
-        self::assertEquals($raw, $value->asNonEmptyStringOrNull());
-
-        $raw = ' ';
-        $value = new Value($raw);
-        self::assertEquals($raw, $value->asNonEmptyStringOrNull());
-
-        $raw = null;
-        $value = new Value($raw);
-        self::assertEquals($raw, $value->asNonEmptyStringOrNull());
+        self::assertEquals($expected, $value->asNonEmptyStringOrNull());
     }
 
-    public function testFailAsNonEmptyStringOrNull(): void
+    /** @dataProvider emptyStringProvider */
+    public function testFailAsNonEmptyStringOrNull($raw): void
     {
-        $value = new Value('');
+        $value = new Value($raw);
         $this->expectException(InvalidArgumentException::class);
         $value->asNonEmptyStringOrNull();
     }
 
-    public function testAsNonEmptyStrings(): void
+    /** @dataProvider nonEmptyStringProvider */
+    public function testAsNonEmptyStrings($raw, $expected): void
     {
-        $raws = ['non-empty-string-1', 'non-empty-string-2'];
-        $value = new Value($raws);
-        self::assertEquals($raws, $value->asNonEmptyStrings());
+        $value = new Value([$raw, $raw]);
+        self::assertEquals([$expected, $expected], $value->asNonEmptyStrings());
     }
 
-    public function testFailAsNonEmptyStrings(): void
+    /** @dataProvider emptyStringOrNullProvider */
+    public function testFailAsNonEmptyStrings($raw): void
     {
-        $value = new Value(['non-empty-string', '']);
+        $value = new Value([$raw, $raw]);
         $this->expectException(InvalidArgumentException::class);
         $value->asNonEmptyStrings();
     }
 
-    public function testAsString(): void
+    public static function booleanProvider(): iterable
     {
-        $raw = '';
-        $value = new Value($raw);
-        self::assertEquals($raw, $value->asString());
-
-        $raw = 'non-empty-string';
-        $value = new Value($raw);
-        self::assertEquals($raw, $value->asString());
-
-        $raw = 1;
-        $value = new Value($raw);
-        self::assertEquals((string) $raw, $value->asString());
+        yield [true, true];
+        yield [false, false];
     }
 
-    public function testAsInteger(): void
+    public static function booleanOrNullProvider(): iterable
     {
-        $raw = 1;
-        $value = new Value($raw);
-        self::assertEquals($raw, $value->asInteger());
+        yield from self::booleanProvider();
+        yield [null, null];
+    }
+
+    public static function integerProvider(): iterable
+    {
+        yield ['1', 1];
+        yield [1, 1];
+        yield [0, 0];
+        yield [-1, -1];
+        yield ['-1', -1];
+    }
+
+    public static function integerOrNullProvider(): iterable {
+        yield from self::integerProvider();
+        yield [null, null];
+    }
+
+    public static function stringProvider(): iterable
+    {
+        yield from self::nonEmptyStringProvider();
+        yield ['', ''];
+    }
+
+    public static function stringOrNullProvider(): iterable
+    {
+        yield from self::stringProvider();
+        yield [null, null];
+    }
+
+    public static function emptyStringProvider(): iterable
+    {
+        yield ['', ''];
+    }
+    public function emptyStringOrNullProvider(): iterable
+    {
+        yield from self::emptyStringProvider();
+        yield [null, null];
+    }
+
+    public static function nonEmptyStringProvider(): iterable
+    {
+        yield [' ', ' '];
+        yield ['non-empty-string', 'non-empty-string'];
+        yield [1, '1'];
+    }
+
+    public static function nonEmptyStringOrNullProvider(): iterable
+    {
+        yield from self::nonEmptyStringProvider();
+        yield [null, null];
     }
 }

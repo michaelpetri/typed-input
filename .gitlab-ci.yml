@@ -16,4 +16,5 @@ before_script:
 
 test:
   script:
+    - vendor/bin/psalm
     - vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
