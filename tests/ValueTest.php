@@ -38,6 +38,36 @@ final class ValueTest extends TestCase
         self::assertEquals($expected, $value->asIntegerOrNull());
     }
 
+    /** @dataProvider positiveIntegerProvider */
+    public function testAsPositiveInteger($raw, $expected): void
+    {
+        $value = new Value($raw);
+        self::assertEquals($expected, $value->asPositiveInteger());
+    }
+
+    /** @dataProvider nonPositiveIntegerOrNullProvider */
+    public function testFailAsPositiveInteger($raw): void
+    {
+        $value = new Value($raw);
+        $this->expectException(InvalidArgumentException::class);
+        $value->asPositiveInteger();
+    }
+
+    /** @dataProvider positiveIntegerOrNullProvider */
+    public function testAsPositiveIntegerOrNull($raw, $expected): void
+    {
+        $value = new Value($raw);
+        self::assertEquals($expected, $value->asPositiveIntegerOrNull());
+    }
+
+    /** @dataProvider nonPositiveIntegerProvider */
+    public function testFailAsPositiveIntegerOrNull($raw): void
+    {
+        $value = new Value($raw);
+        $this->expectException(InvalidArgumentException::class);
+        $value->asPositiveIntegerOrNull();
+    }
+
     /** @dataProvider stringProvider */
     public function testAsString($raw, $expected): void
     {
@@ -118,9 +148,44 @@ final class ValueTest extends TestCase
         yield ['-1', -1];
     }
 
-    public static function integerOrNullProvider(): iterable {
+    public static function integerOrNullProvider(): iterable
+    {
         yield from self::integerProvider();
         yield [null, null];
+    }
+
+    public static function positiveIntegerProvider(): iterable
+    {
+        yield [1, 1];
+    }
+
+    public static function positiveIntegerOrNullProvider(): iterable
+    {
+        yield from static::positiveIntegerProvider();
+        yield [null, null];
+    }
+
+    public static function negativeIntegerProvider(): iterable
+    {
+        yield [-1, -1];
+    }
+
+    public static function negativeIntegerOrNullProvider(): iterable
+    {
+        yield from static::negativeIntegerProvider();
+        yield [null, null];
+    }
+
+    public static function nonPositiveIntegerProvider(): iterable
+    {
+        yield from self::negativeIntegerProvider();
+        yield [0, 0];
+    }
+
+    public static function nonPositiveIntegerOrNullProvider(): iterable
+    {
+        yield from self::negativeIntegerOrNullProvider();
+        yield [0, 0];
     }
 
     public static function stringProvider(): iterable
@@ -139,7 +204,8 @@ final class ValueTest extends TestCase
     {
         yield ['', ''];
     }
-    public function emptyStringOrNullProvider(): iterable
+
+    public static function emptyStringOrNullProvider(): iterable
     {
         yield from self::emptyStringProvider();
         yield [null, null];
