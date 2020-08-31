@@ -16,5 +16,6 @@ before_script:
 
 test:
   script:
+    - vendor/bin/php-cs-fixer fix src --dry-run
     - vendor/bin/psalm
     - vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
