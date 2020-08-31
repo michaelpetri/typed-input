@@ -42,6 +42,7 @@ your hard work, but some features just don't fit with the goals of the project.
 
 When you do begin working on your feature, here are some guidelines to consider:
 
+- Check the [branch semantics][] section of the [semantic branching model][] documentation.
 - Your merge request description should clearly detail the changes you have made.
   I will use this description to update the CHANGELOG. If there is no
   description, or it does not adequately describe your feature, I will ask you
@@ -55,7 +56,7 @@ When you do begin working on your feature, here are some guidelines to consider:
 - Use **feature/{issue-id}.** branches. Please do not ask to merge from your master
   branch.
 - **Submit one feature per merge request.** If you have multiple features you
-  wish to submit, please break them up into separate merge requests.
+  wish to submit, please break them up into separate merge requests. 
 - **Write good commit messages.** Make sure each individual commit in your merge
   request is meaningful. If you had to make multiple intermediate commits while
   developing, please squash them before submitting.
@@ -79,5 +80,6 @@ php vendor/bin/phpunit
 [gitlab]: https://gitlab.com/michaelpetri/typed-input
 [issues]: https://gitlab.com/michaelpetri/typed-input/-/issues
 [bug fixes]: https://dev-cafe.github.io/branching-model#bugfixes
+[branch semantics]: https://dev-cafe.github.io/branching-model/#branch-semantics
 [merge reqeusts]: https://gitlab.com/michaelpetri/typed-input/-/merge_requests/new
 [semantic branching model]: https://dev-cafe.github.io/branching-model
