@@ -14,7 +14,7 @@
         "webmozart/assert": "^1.9"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.16",
+        "friendsofphp/php-cs-fixer": "^2.17",
         "phpunit/phpunit": "^9.3",
         "roave/security-advisories": "dev-master",
         "vimeo/psalm": "^3.14"
