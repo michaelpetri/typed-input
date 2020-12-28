@@ -11,7 +11,7 @@
     "require": {
         "php": "^7.1",
         "symfony/console": "^4.4 || ^5.2",
-        "webmozart/assert": "^1.8"
+        "webmozart/assert": "^1.9"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16",
