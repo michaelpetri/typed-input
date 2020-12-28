@@ -4,9 +4,7 @@ namespace MichaelPetri\TypedInput;
 
 use Webmozart\Assert\Assert;
 
-/**
- * @psalm-immutable
- */
+/** @psalm-immutable */
 final class Value
 {
     /** @var string|string[]|bool|null */
@@ -20,9 +18,6 @@ final class Value
         $this->value = $value;
     }
 
-    /**
-     * @psalm-pure
-     */
     public function asBoolean(): bool
     {
         $value = $this->asBooleanOrNull();
@@ -31,20 +26,13 @@ final class Value
         return $value;
     }
 
-    /**
-     * @psalm-pure
-     */
     public function asBooleanOrNull(): ?bool
     {
-        $value = $this->value;
-        Assert::nullOrBoolean($value);
+        Assert::nullOrBoolean($this->value);
 
-        return $value;
+        return $this->value;
     }
 
-    /**
-     * @psalm-pure
-     */
     public function asInteger(): int
     {
         $value = $this->asIntegerOrNull();
@@ -53,22 +41,16 @@ final class Value
         return $value;
     }
 
-    /**
-     * @psalm-pure
-     */
     public function asIntegerOrNull(): ?int
     {
-        $value = $this->value;
-        Assert::nullOrIntegerish($value);
+        Assert::nullOrIntegerish($this->value);
 
-        return null !== $value
-            ? (int) $value
+        return null !== $this->value
+            ? (int) $this->value
             : null;
     }
 
     /**
-     * @psalm-pure
-     *
      * @psalm-return positive-int
      */
     public function asPositiveInteger(): int
@@ -80,8 +62,6 @@ final class Value
     }
 
     /**
-     * @psalm-pure
-     *
      * @psalm-return positive-int|null
      * @psalm-suppress MoreSpecificReturnType
      */
@@ -94,9 +74,6 @@ final class Value
         return $value;
     }
 
-    /**
-     * @psalm-pure
-     */
     public function asString(): string
     {
         $value = $this->asStringOrNull();
@@ -105,27 +82,14 @@ final class Value
         return $value;
     }
 
-    /**
-     * @psalm-pure
-     */
     public function asStringOrNull(): ?string
     {
-        $value = $this->value;
+        Assert::nullOrString($this->value);
 
-        if (is_numeric($value)) {
-            $value = (string) $value;
-        }
-
-        Assert::nullOrString($value);
-
-        return $value;
+        return $this->value;
     }
 
-    /**
-     * @psalm-pure
-     *
-     * @psalm-return non-empty-string
-     */
+    /** @psalm-return non-empty-string */
     public function asNonEmptyString(): string
     {
         $value = $this->asNonEmptyStringOrNull();
@@ -134,44 +98,22 @@ final class Value
         return $value;
     }
 
-    /**
-     * @psalm-pure
-     * @psalm-return non-empty-string|null
-     */
+    /** @psalm-return non-empty-string|null */
     public function asNonEmptyStringOrNull(): ?string
     {
-        $value = $this->value;
+        Assert::nullOrStringNotEmpty($this->value);
 
-        if (is_numeric($value)) {
-            $value = (string) $value;
-        }
-
-        Assert::nullOrStringNotEmpty($value);
-
-        return $value;
+        return $this->value;
     }
 
     /**
-     * @psalm-pure
-     *
      * @psalm-return list<non-empty-string>
      * @return string[]
      */
     public function asNonEmptyStrings(): array
     {
-        $values = $this->value;
+        Assert::allStringNotEmpty($this->value);
 
-        Assert::isArray($values);
-
-        $values = array_map(
-            static function ($value) {
-                return is_numeric($value) ? (string) $value : $value;
-            },
-            $values
-        );
-
-        Assert::allStringNotEmpty($values);
-
-        return array_values($values);
+        return array_values($this->value);
     }
 }
