@@ -1,21 +1,33 @@
-image: php:7
+.base:
+  before_script:
+    - apt-get update -yqq
+    - apt-get install -yqq git zip gzip
+    # Install & enable Xdebug for code coverage reports
+    - pecl install xdebug
+    - docker-php-ext-enable xdebug
+    # Install and run Composer
+    - curl -sS https://getcomposer.org/installer | php
+    - php composer.phar install
+  cache:
+    paths:
+      - vendor/
 
-cache:
-  paths:
-    - vendor/
-
-before_script:
-  - apt-get update -yqq
-  - apt-get install -yqq git zip gzip
-  # Install & enable Xdebug for code coverage reports
-  - pecl install xdebug
-  - docker-php-ext-enable xdebug
-  # Install and run Composer
-  - curl -sS https://getcomposer.org/installer | php
-  - php composer.phar install
-
-test:
+linters:
+  image: php:7.4
+  extends: .base
   script:
-    - vendor/bin/php-cs-fixer fix src --dry-run
-    - vendor/bin/psalm
-    - vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
+    - php vendor/bin/psalm
+    - php vendor/bin/php-cs-fixer fix --allow-risky=yes --dry-run
+
+test:7.4:
+  image: php:7.4
+  extends: .base
+  script:
+    - php vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
+
+test:8.0:
+  image: php:8.0
+  extends: .base
+  script:
+    - php vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
+

@@ -1,15 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MichaelPetri\TypedInput;
 
 use Symfony\Component\Console\Input\InputInterface;
 
 final class TypedInput
 {
-    /**
-     * @var InputInterface
-     */
-    private $input;
+    private InputInterface $input;
 
     private function __construct(InputInterface $input)
     {

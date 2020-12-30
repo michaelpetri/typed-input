@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MichaelPetri\TypedInput;
 
 use Webmozart\Assert\Assert;
@@ -10,9 +12,7 @@ final class Value
     /** @var string|string[]|bool|null */
     private $value;
 
-    /**
-     * @param string|string[]|bool|null $value
-     */
+    /** @param string|string[]|bool|null $value */
     public function __construct($value)
     {
         $this->value = $value;
@@ -50,9 +50,7 @@ final class Value
             : null;
     }
 
-    /**
-     * @psalm-return positive-int
-     */
+    /** @psalm-return positive-int */
     public function asPositiveInteger(): int
     {
         $value = $this->asPositiveIntegerOrNull();
