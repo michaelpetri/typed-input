@@ -22,12 +22,16 @@ linters:
 test:7.4:
   image: php:7.4
   extends: .base
+  variables:
+    XDEBUG_MODE: coverage
   script:
     - php vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
 
 test:8.0:
   image: php:8.0
   extends: .base
+  variables:
+    XDEBUG_MODE: coverage
   script:
     - php vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
 
