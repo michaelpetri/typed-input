@@ -72,6 +72,29 @@ final class Value
         return $value;
     }
 
+    /**
+     * @psalm-return positive-int|0
+     * @psalm-suppress MoreSpecificReturnType
+     */
+    public function asNaturalInteger(): int {
+        $value = $this->asNaturalIntegerOrNull();
+        Assert::notNull($value);
+
+        return $value;
+    }
+
+    /**
+     * @psalm-return positive-int|0|null
+     * @psalm-suppress LessSpecificReturnStatement
+     * @psalm-suppress MoreSpecificReturnType
+     */
+    public function asNaturalIntegerOrNull(): ?int {
+        $value = $this->asIntegerOrNull();
+        Assert::nullOrGreaterThanEq($value, 0);
+
+        return $value;
+    }
+
     public function asString(): string
     {
         $value = $this->asStringOrNull();

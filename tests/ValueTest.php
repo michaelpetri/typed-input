@@ -96,6 +96,50 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-param string|string[]|bool|null $raw
+     * @psalm-param positive-int|0 $expected
+     * @dataProvider naturalIntegerProvider
+     */
+    public function testAsNaturalInteger($raw, int $expected): void
+    {
+        $value = new Value($raw);
+        self::assertEquals($expected, $value->asNaturalInteger());
+    }
+
+    /**
+     * @psalm-param string|string[]|bool|null $raw
+     * @dataProvider negativeIntegerOrNullProvider
+     */
+    public function testFailAsNaturalInteger($raw): void
+    {
+        $value = new Value($raw);
+        $this->expectException(InvalidArgumentException::class);
+        $value->asNaturalInteger();
+    }
+
+    /**
+     * @psalm-param string|string[]|bool|null $raw
+     * @psalm-param positive-int|0|null $expected
+     * @dataProvider naturalIntegerOrNullProvider
+     */
+    public function testAsNaturalIntegerOrNull($raw, ?int $expected): void
+    {
+        $value = new Value($raw);
+        self::assertEquals($expected, $value->asNaturalIntegerOrNull());
+    }
+
+    /**
+     * @psalm-param string|string[]|bool|null $raw
+     * @dataProvider negativeIntegerProvider
+     */
+    public function testFailAsNaturalIntegerOrNull($raw): void
+    {
+        $value = new Value($raw);
+        $this->expectException(InvalidArgumentException::class);
+        $value->asNaturalIntegerOrNull();
+    }
+
+    /**
+     * @psalm-param string|string[]|bool|null $raw
      * @dataProvider stringProvider
      */
     public function testAsString($raw, string $expected): void
@@ -212,8 +256,7 @@ final class ValueTest extends TestCase
      */
     public static function integerProvider(): iterable
     {
-        yield from self::positiveIntegerProvider();
-        yield from self::zeroIntegerProvider();
+        yield from self::naturalIntegerProvider();
         yield from self::negativeIntegerProvider();
     }
 
@@ -260,6 +303,24 @@ final class ValueTest extends TestCase
     public static function positiveIntegerOrNullProvider(): iterable
     {
         yield from self::positiveIntegerProvider();
+        yield from self::nullProvider();
+    }
+
+    /**
+     * @psalm-return iterable<array{
+     *     0: non-empty-string,
+     *     1: positive-int|0,
+     * }>
+     */
+    public static function naturalIntegerProvider(): iterable
+    {
+        yield from self::zeroIntegerProvider();
+        yield from self::positiveIntegerProvider();
+    }
+
+    public static function naturalIntegerOrNullProvider(): iterable
+    {
+        yield from self::naturalIntegerProvider();
         yield from self::nullProvider();
     }
 
