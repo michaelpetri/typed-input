@@ -1,13 +1,13 @@
 # Contributing
 
-Contributions are welcome. I accept merge requests on [GitLab][].
+Contributions are welcome. I accept merge requests on [GitHub][].
 This project follows semantic versioning and the [semantic branching model][].
 
 ## Communication Channels
 
 You can find help and discussion in the following places:
 
-- [Gitlab Issues][issues]
+- [GitHub Issues][issues]
 
 ## Reporting Bugs
 
@@ -77,9 +77,9 @@ php vendor/bin/psalm
 php vendor/bin/phpunit
 ```
 
-[gitlab]: https://gitlab.com/michaelpetri/typed-input
-[issues]: https://gitlab.com/michaelpetri/typed-input/-/issues
+[GitHub]: https://github.com/michaelpetri/typed-input
+[issues]: https://github.com/michaelpetri/typed-input/issues
 [bug fixes]: https://dev-cafe.github.io/branching-model#bugfixes
 [branch semantics]: https://dev-cafe.github.io/branching-model/#branch-semantics
-[merge reqeusts]: https://gitlab.com/michaelpetri/typed-input/-/merge_requests/new
+[merge reqeusts]: https://github.com/michaelpetri/typed-input/compare
 [semantic branching model]: https://dev-cafe.github.io/branching-model
