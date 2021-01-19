@@ -20,7 +20,9 @@ Available methods:
 * `asInteger`
 * `asIntegerOrNull`
 * `asPositiveInteger`
-* `asPositiveIntegerOrNull`
+* `asPositiveIntegerOrNull``
+* `asNaturalInteger`
+* `asNaturalIntegerOrNull`
 * `asString`
 * `asStringOrNull`
 * `asNonEmptyString`
