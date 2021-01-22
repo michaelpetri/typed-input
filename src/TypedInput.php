@@ -20,11 +20,13 @@ final class TypedInput
         return new self($input);
     }
 
+    /** @psalm-suppress DeprecatedClass */
     public function getOption(string $name): Value
     {
         return new Value($this->input->getOption($name));
     }
 
+    /** @psalm-suppress DeprecatedClass */
     public function getArgument(string $name): Value
     {
         return new Value($this->input->getArgument($name));

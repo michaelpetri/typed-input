@@ -19,16 +19,4 @@ echo $typedInput->getArgument('my-argument')->asInteger();
 
 ## Available methods:
 
-* `asBoolean`
-* `asBooleanOrNull`
-* `asInteger`
-* `asIntegerOrNull`
-* `asPositiveInteger`
-* `asPositiveIntegerOrNull`
-* `asNaturalInteger`
-* `asNaturalIntegerOrNull`
-* `asString`
-* `asStringOrNull`
-* `asNonEmptyString`
-* `asNonEmptyStringOrNull`
-* `asNonEmptyStrings`
+See [michaelpetri/typed-input](https://github.com/michaelpetri/typed-value/tree/1.x) for a list of available methods.
