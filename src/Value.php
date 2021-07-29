@@ -9,10 +9,10 @@ use Webmozart\Assert\Assert;
 /** @psalm-immutable */
 final class Value
 {
-    /** @var string|string[]|bool|null */
+    /** @var mixed */
     private $value;
 
-    /** @param string|string[]|bool|null $value */
+    /** @param mixed $value */
     public function __construct($value)
     {
         $this->value = $value;
@@ -133,6 +133,7 @@ final class Value
      */
     public function asNonEmptyStrings(): array
     {
+        Assert::isArray($this->value);
         Assert::allStringNotEmpty($this->value);
 
         return array_values($this->value);
