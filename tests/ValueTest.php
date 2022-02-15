@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MichaelPetri\TypedInput\Tests;
 
+use DateTimeInterface;
 use InvalidArgumentException;
 use MichaelPetri\TypedInput\Value;
 use PHPUnit\Framework\TestCase;
@@ -231,7 +232,7 @@ final class ValueTest extends TestCase
      * @psalm-param mixed $raw
      * @psalm-param class-string|null $expectedException
      */
-    public function testAsDateTimeImmutable($raw, ?string $expectedException, $expected): void
+    public function testAsDateTimeImmutable($raw, ?string $expectedException, $expected, ?string $format): void
     {
         $value = new Value($raw);
 
@@ -239,18 +240,20 @@ final class ValueTest extends TestCase
             $this->expectException($expectedException);
         }
 
-        $date = $value->asDateTimeImmutable();
+        $date = $value->asDateTimeImmutable($format);
 
-        self::assertEquals($expected, $date->format(\DateTimeInterface::ATOM));
+        self::assertEquals($expected, $date->format(DateTimeInterface::RSS));
     }
 
     public static function dateTimeProvider(): iterable
     {
-        yield [null, InvalidArgumentException::class, null];
-        yield [1234, InvalidArgumentException::class, null];
-        yield ['blub', TypeError::class, null];
-        yield ['20221111', null, '2022-11-11T00:00:00+00:00'];
-        yield ['2022-11-11', null, '2022-11-11T00:00:00+00:00'];
+        yield [null, InvalidArgumentException::class, null, null];
+        yield [1234, InvalidArgumentException::class, null, null];
+        yield ['blub', TypeError::class, null, null];
+        yield ['20221111', null, 'Fri, 11 Nov 2022 00:00:00 +0000', null];
+        yield ['2022-11-11', null, 'Fri, 11 Nov 2022 00:00:00 +0000', null];
+        yield ['2022-11-11', TypeError::class, null, DateTimeInterface::ATOM];
+        yield ['2022-11-11T03:04:02+00:00', null, 'Fri, 11 Nov 2022 03:04:02 +0000', DateTimeInterface::ATOM];
     }
 
     /**

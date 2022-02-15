@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MichaelPetri\TypedInput;
 
 use DateTimeImmutable;
+use DateTimeInterface;
 use Exception;
 use TypeError;
 use Webmozart\Assert\Assert;
@@ -142,14 +143,20 @@ final class Value
         return array_values($this->value);
     }
 
-    public function asDateTimeImmutable(): DateTimeImmutable
+    public function asDateTimeImmutable(?string $format = null): DateTimeImmutable
     {
         $value = $this->asNonEmptyString();
 
         try {
-            $date = new DateTimeImmutable($value);
+            $date = $format !== null
+                ? DateTimeImmutable::createFromFormat($format, $value)
+                : new DateTimeImmutable($value);
         } catch (Exception $e) {
             throw new TypeError(sprintf('"%s" is not a valid date string.', $value), 412, $e);
+        }
+
+        if(!$date instanceof DateTimeImmutable) {
+            throw new TypeError(sprintf('Invalid values "%s" and format "%s"', $value, $format), 412);
         }
 
         return $date;
