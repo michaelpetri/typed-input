@@ -156,7 +156,7 @@ final class Value
         }
 
         if(!$date instanceof DateTimeImmutable) {
-            throw new TypeError(sprintf('Invalid values "%s" and format "%s"', $value, $format), 412);
+            throw new TypeError(sprintf('Invalid values "%s" and format "%s"', $value, $format ?? 'no format'), 412);
         }
 
         return $date;

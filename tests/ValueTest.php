@@ -252,6 +252,7 @@ final class ValueTest extends TestCase
         yield ['blub', TypeError::class, null, null];
         yield ['20221111', null, 'Fri, 11 Nov 2022 00:00:00 +0000', null];
         yield ['2022-11-11', null, 'Fri, 11 Nov 2022 00:00:00 +0000', null];
+        yield ['2022-11-11T05:06:07+01:00', null, 'Fri, 11 Nov 2022 05:06:07 +0100', null];
         yield ['2022-11-11', TypeError::class, null, DateTimeInterface::ATOM];
         yield ['2022-11-11T03:04:02+00:00', null, 'Fri, 11 Nov 2022 03:04:02 +0000', DateTimeInterface::ATOM];
     }
