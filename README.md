@@ -32,3 +32,4 @@ echo $typedInput->getArgument('my-argument')->asInteger();
 * `asNonEmptyString`
 * `asNonEmptyStringOrNull`
 * `asNonEmptyStrings`
+* `asDateTimeImmutable`
