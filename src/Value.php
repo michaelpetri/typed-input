@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace MichaelPetri\TypedInput;
 
+use DateTimeImmutable;
+use Exception;
+use TypeError;
 use Webmozart\Assert\Assert;
 
 /** @psalm-immutable */
@@ -137,5 +140,18 @@ final class Value
         Assert::allStringNotEmpty($this->value);
 
         return array_values($this->value);
+    }
+
+    public function asDateTimeImmutable(): DateTimeImmutable
+    {
+        $value = $this->asNonEmptyString();
+
+        try {
+            $date = new DateTimeImmutable($value);
+        } catch (Exception $e) {
+            throw new TypeError(sprintf('"%s" is not a valid date string.', $value), null, $e);
+        }
+
+        return $date;
     }
 }
