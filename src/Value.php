@@ -149,7 +149,7 @@ final class Value
         try {
             $date = new DateTimeImmutable($value);
         } catch (Exception $e) {
-            throw new TypeError(sprintf('"%s" is not a valid date string.', $value), null, $e);
+            throw new TypeError(sprintf('"%s" is not a valid date string.', $value), 412, $e);
         }
 
         return $date;
