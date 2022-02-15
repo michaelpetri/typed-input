@@ -7,6 +7,7 @@ namespace MichaelPetri\TypedInput\Tests;
 use InvalidArgumentException;
 use MichaelPetri\TypedInput\Value;
 use PHPUnit\Framework\TestCase;
+use TypeError;
 
 final class ValueTest extends TestCase
 {
@@ -222,6 +223,34 @@ final class ValueTest extends TestCase
         $value = new Value([$raw, $raw]);
         $this->expectException(InvalidArgumentException::class);
         $value->asNonEmptyStrings();
+    }
+
+    /**
+     * @dataProvider dateTimeProvider
+     *
+     * @psalm-param mixed $raw
+     * @psalm-param class-string|null $expectedException
+     */
+    public function testAsDateTimeImmutable($raw, ?string $expectedException, $expected): void
+    {
+        $value = new Value($raw);
+
+        if ($expectedException !== null) {
+            $this->expectException($expectedException);
+        }
+
+        $date = $value->asDateTimeImmutable();
+
+        self::assertEquals($expected, $date->format(\DateTimeInterface::ATOM));
+    }
+
+    public static function dateTimeProvider(): iterable
+    {
+        yield [null, InvalidArgumentException::class, null];
+        yield [1234, InvalidArgumentException::class, null];
+        yield ['blub', TypeError::class, null];
+        yield ['20221111', null, '2022-11-11T00:00:00+00:00'];
+        yield ['2022-11-11', null, '2022-11-11T00:00:00+00:00'];
     }
 
     /**
