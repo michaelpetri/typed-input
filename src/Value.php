@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace MichaelPetri\TypedInput;
 
 use DateTimeImmutable;
-use DateTimeInterface;
 use Exception;
 use TypeError;
 use Webmozart\Assert\Assert;
@@ -156,7 +155,11 @@ final class Value
         }
 
         if(!$date instanceof DateTimeImmutable) {
-            throw new TypeError(sprintf('Invalid values "%s" and format "%s"', $value, $format ?? 'no format'), 412);
+            if($format !== null) {
+                throw new TypeError(sprintf('Invalid date "%s" with format "%s"', $value, $format), 412);
+            }
+
+            throw new TypeError(sprintf('"%s" is not a valid date string.', $value), 412);
         }
 
         return $date;
