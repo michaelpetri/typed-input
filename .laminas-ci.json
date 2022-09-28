@@ -1,5 +1,17 @@
 {
-  "ignore_php_platform_requirements": {
-    "8.1": true
-  }
+  "additional_checks": [
+    {
+      "name": "PHP CS Fixer [7.4, locked]",
+      "job": {
+        "php": "7.4",
+        "dependencies": "locked",
+        "command": "./vendor/bin/php-cs-fixer fix -v --diff --dry-run --allow-risky=yes"
+      }
+    }
+  ],
+  "exclude": [
+    {
+      "name": "PHP CS Fixer [7.4, locked]"
+    }
+  ]
 }
