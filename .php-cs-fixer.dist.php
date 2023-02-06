@@ -5,10 +5,7 @@ $finder = PhpCsFixer\Finder::create()
 
 return (new PhpCsFixer\Config())
     ->setRules([
-        'declare_strict_types' => true,
-        'strict_param' => true,
-        'array_syntax' => ['syntax' => 'short'],
-        'no_superfluous_phpdoc_tags' => ['allow_mixed' => true],
-        'phpdoc_to_comment' => false,
+        '@PSR12' => true,
+        'no_unused_imports' => true,
     ])
     ->setFinder($finder);
