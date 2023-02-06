@@ -5,163 +5,209 @@ declare(strict_types=1);
 namespace MichaelPetri\TypedInput;
 
 use DateTimeImmutable;
-use Exception;
-use TypeError;
-use Webmozart\Assert\Assert;
+
+use function Psl\Type\bool;
+use function Psl\Type\instance_of;
+use function Psl\Type\int;
+use function Psl\Type\non_empty_string;
+use function Psl\Type\nullable;
+use function Psl\Type\num;
+use function Psl\Type\positive_int;
+use function Psl\Type\string;
+use function Psl\Type\uint;
+use function Psl\Type\vec;
 
 /** @psalm-immutable */
 final class Value
 {
-    /** @var mixed */
-    private $value;
-
-    /** @param mixed $value */
-    public function __construct($value)
+    public function __construct(private readonly mixed $value)
     {
-        $this->value = $value;
     }
 
+    /**
+     * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
+     * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
+     */
     public function asBoolean(): bool
     {
-        $value = $this->asBooleanOrNull();
-        Assert::notNull($value);
-
-        return $value;
+        return bool()->coerce(
+            $this->value
+        );
     }
 
+    /**
+     * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
+     * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
+     */
     public function asBooleanOrNull(): ?bool
     {
-        Assert::nullOrBoolean($this->value);
-
-        return $this->value;
+        return nullable(bool())->coerce(
+            $this->value
+        );
     }
 
+    /**
+     * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
+     * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
+     */
     public function asInteger(): int
     {
-        $value = $this->asIntegerOrNull();
-        Assert::notNull($value);
-
-        return $value;
+        return int()->coerce(
+            $this->value
+        );
     }
 
+    /**
+     * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
+     * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
+     */
     public function asIntegerOrNull(): ?int
     {
-        Assert::nullOrIntegerish($this->value);
-
-        return null !== $this->value
-            ? (int) $this->value
-            : null;
+        return nullable(int())->coerce(
+            $this->value
+        );
     }
 
-    /** @psalm-return positive-int */
+    /**
+     * @psalm-return positive-int
+     * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
+     * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
+     */
     public function asPositiveInteger(): int
     {
-        $value = $this->asPositiveIntegerOrNull();
-        Assert::notNull($value);
-
-        return $value;
+        return positive_int()->coerce(
+            $this->value
+        );
     }
 
     /**
      * @psalm-return positive-int|null
-     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
+     * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
      */
     public function asPositiveIntegerOrNull(): ?int
     {
-        $value = $this->asIntegerOrNull();
-        Assert::nullOrGreaterThan($value, 0);
-
-        /** @psalm-suppress LessSpecificReturnStatement */
-        return $value;
+        return nullable(positive_int())->coerce(
+            $this->value
+        );
     }
 
     /**
      * @psalm-return positive-int|0
-     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
+     * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
      */
-    public function asNaturalInteger(): int {
-        $value = $this->asNaturalIntegerOrNull();
-        Assert::notNull($value);
-
-        return $value;
+    public function asNaturalInteger(): int
+    {
+        return uint()->coerce(
+            $this->value
+        );
     }
 
     /**
      * @psalm-return positive-int|0|null
-     * @psalm-suppress LessSpecificReturnStatement
-     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
+     * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
      */
-    public function asNaturalIntegerOrNull(): ?int {
-        $value = $this->asIntegerOrNull();
-        Assert::nullOrGreaterThanEq($value, 0);
-
-        return $value;
+    public function asNaturalIntegerOrNull(): ?int
+    {
+        return nullable(uint())->coerce(
+            $this->value
+        );
     }
 
+    /**
+     * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
+     * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
+     */
     public function asString(): string
     {
-        $value = $this->asStringOrNull();
-        Assert::string($value);
-
-        return $value;
+        return string()->coerce(
+            $this->value
+        );
     }
 
+    /**
+     * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
+     * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
+     */
     public function asStringOrNull(): ?string
     {
-        Assert::nullOrString($this->value);
-
-        return $this->value;
+        return nullable(string())->coerce(
+            $this->value
+        );
     }
 
-    /** @psalm-return non-empty-string */
+    /**
+     * @psalm-return non-empty-string
+     * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
+     * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
+     */
     public function asNonEmptyString(): string
     {
-        $value = $this->asNonEmptyStringOrNull();
-        Assert::notNull($value);
-
-        return $value;
+        return non_empty_string()->coerce(
+            $this->value
+        );
     }
 
-    /** @psalm-return non-empty-string|null */
+    /**
+     * @psalm-return non-empty-string|null
+     * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
+     * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
+     */
     public function asNonEmptyStringOrNull(): ?string
     {
-        Assert::nullOrStringNotEmpty($this->value);
-
-        return $this->value;
+        return nullable(non_empty_string())->coerce(
+            $this->value
+        );
     }
 
     /**
      * @psalm-return list<non-empty-string>
-     * @return string[]
+     * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
+     * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
+     *
      */
     public function asNonEmptyStrings(): array
     {
-        Assert::isArray($this->value);
-        Assert::allStringNotEmpty($this->value);
-
-        return array_values($this->value);
+        return vec(non_empty_string())->coerce(
+            $this->value
+        );
     }
 
-    public function asDateTimeImmutable(?string $format = null): DateTimeImmutable
+    /**
+     * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
+     * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
+     */
+    public function asNumeric(): float|int
     {
-        $value = $this->asNonEmptyString();
+        return num()->coerce(
+            $this->value
+        );
+    }
 
-        try {
-            $date = $format !== null
-                ? DateTimeImmutable::createFromFormat($format, $value)
-                : new DateTimeImmutable($value);
-        } catch (Exception $e) {
-            throw new TypeError(sprintf('"%s" is not a valid date string.', $value), 412, $e);
-        }
+    /**
+     * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
+     * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
+     */
+    public function asNumericOrNull(): float|int|null
+    {
+        return nullable(num())->coerce(
+            $this->value
+        );
+    }
 
-        if(!$date instanceof DateTimeImmutable) {
-            if($format !== null) {
-                throw new TypeError(sprintf('Invalid date "%s" with format "%s"', $value, $format), 412);
-            }
+    /**
+     * @param non-empty-string $format
+     * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
+     * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
+     */
+    public function asDateTimeImmutable(string $format): DateTimeImmutable
+    {
+        $value = $this->asString();
 
-            throw new TypeError(sprintf('"%s" is not a valid date string.', $value), 412);
-        }
-
-        return $date;
+        return instance_of(\DateTimeImmutable::class)->coerce(
+            DateTimeImmutable::createFromFormat($format, $value)
+        );
     }
 }

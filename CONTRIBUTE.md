@@ -47,7 +47,7 @@ When you do begin working on your feature, here are some guidelines to consider:
   I will use this description to update the CHANGELOG. If there is no
   description, or it does not adequately describe your feature, I will ask you
   to update the description.
-- This package follows the **[PSR-2 coding standard][psr-2]**. Please
+- This package follows the **[PSR-12 coding standard][PSR-12]**. Please
   ensure your code does, too.
 - Please **write tests** for any new features you add.
 - Please **ensure that tests pass** before submitting your merge request.
@@ -83,3 +83,4 @@ php vendor/bin/phpunit
 [branch semantics]: https://dev-cafe.github.io/branching-model/#branch-semantics
 [merge reqeusts]: https://github.com/michaelpetri/typed-input/compare
 [semantic branching model]: https://dev-cafe.github.io/branching-model
+[PSR-12]: https://www.php-fig.org/psr/psr-12/
