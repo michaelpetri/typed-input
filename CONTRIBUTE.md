@@ -72,7 +72,7 @@ To run all the tests and coding standards checks, execute the following from the
 command line, while in the project root directory:
 
 ```
-php vendor/bin/php-cs-fix fix src --dry-run
+php vendor/bin/php-cs-fixe fix src --dry-run
 php vendor/bin/psalm
 php vendor/bin/phpunit
 ```
