@@ -15,8 +15,8 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0",
-        "phpunit/phpunit": "^10.0",
-        "roave/security-advisories": "dev-master",
+        "phpunit/phpunit": "^10.1.1",
+        "roave/security-advisories": "dev-latest",
         "vimeo/psalm": "^5.1"
     },
     "autoload": {
