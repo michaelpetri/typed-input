@@ -2,15 +2,14 @@
 <!-- https://phpunit.de/manual/current/en/appendixes.configuration.html -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
-         backupGlobals="false"
          colors="true"
          failOnWarning="true"
          failOnRisky="true">
-  <coverage>
+  <source>
     <include>
       <directory>src</directory>
     </include>
-  </coverage>
+  </source>
   <php>
     <ini name="error_reporting" value="-1"/>
   </php>
