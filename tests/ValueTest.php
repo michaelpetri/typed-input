@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace MichaelPetri\TypedInput\Tests;
 
+use DateTimeInterface;
+use InvalidArgumentException;
 use MichaelPetri\TypedInput\Value;
 use PHPUnit\Framework\TestCase;
-use Psl\Type\Exception\CoercionException;
+use TypeError;
 
 final class ValueTest extends TestCase
 {
@@ -14,7 +16,7 @@ final class ValueTest extends TestCase
      * @psalm-param string|string[]|bool|null $raw
      * @dataProvider booleanProvider
      */
-    public function testAsBoolean(mixed $raw, bool $expected): void
+    public function testAsBoolean($raw, bool $expected): void
     {
         $value = new Value($raw);
         self::assertSame($expected, $value->asBoolean());
@@ -24,7 +26,7 @@ final class ValueTest extends TestCase
      * @psalm-param string|string[]|bool|null $raw
      * @dataProvider booleanOrNullProvider
      */
-    public function testAsBooleanOrNull(mixed $raw, ?bool $expected): void
+    public function testAsBooleanOrNull($raw, ?bool $expected): void
     {
         $value = new Value($raw);
         self::assertSame($expected, $value->asBooleanOrNull());
@@ -34,7 +36,7 @@ final class ValueTest extends TestCase
      * @psalm-param string|string[]|bool|null $raw
      * @dataProvider integerProvider
      */
-    public function testAsInteger(mixed $raw, int $expected): void
+    public function testAsInteger($raw, int $expected): void
     {
         $value = new Value($raw);
         self::assertSame($expected, $value->asInteger());
@@ -44,7 +46,7 @@ final class ValueTest extends TestCase
      * @psalm-param string|string[]|bool|null $raw
      * @dataProvider integerProvider
      */
-    public function testAsIntegerOrNull(mixed $raw, ?int $expected): void
+    public function testAsIntegerOrNull($raw, ?int $expected): void
     {
         $value = new Value($raw);
         self::assertSame($expected, $value->asIntegerOrNull());
@@ -55,7 +57,7 @@ final class ValueTest extends TestCase
      * @psalm-param positive-int $expected
      * @dataProvider positiveIntegerProvider
      */
-    public function testAsPositiveInteger(mixed $raw, int $expected): void
+    public function testAsPositiveInteger($raw, int $expected): void
     {
         $value = new Value($raw);
         self::assertSame($expected, $value->asPositiveInteger());
@@ -65,10 +67,10 @@ final class ValueTest extends TestCase
      * @psalm-param string|string[]|bool|null $raw
      * @dataProvider nonPositiveIntegerOrNullProvider
      */
-    public function testFailAsPositiveInteger(mixed $raw): void
+    public function testFailAsPositiveInteger($raw): void
     {
         $value = new Value($raw);
-        $this->expectException(CoercionException::class);
+        $this->expectException(InvalidArgumentException::class);
         $value->asPositiveInteger();
     }
 
@@ -77,7 +79,7 @@ final class ValueTest extends TestCase
      * @psalm-param positive-int|null $expected
      * @dataProvider positiveIntegerOrNullProvider
      */
-    public function testAsPositiveIntegerOrNull(mixed $raw, ?int $expected): void
+    public function testAsPositiveIntegerOrNull($raw, ?int $expected): void
     {
         $value = new Value($raw);
         self::assertSame($expected, $value->asPositiveIntegerOrNull());
@@ -87,10 +89,10 @@ final class ValueTest extends TestCase
      * @psalm-param string|string[]|bool|null $raw
      * @dataProvider nonPositiveIntegerProvider
      */
-    public function testFailAsPositiveIntegerOrNull(mixed $raw): void
+    public function testFailAsPositiveIntegerOrNull($raw): void
     {
         $value = new Value($raw);
-        $this->expectException(CoercionException::class);
+        $this->expectException(InvalidArgumentException::class);
         $value->asPositiveIntegerOrNull();
     }
 
@@ -99,7 +101,7 @@ final class ValueTest extends TestCase
      * @psalm-param positive-int|0 $expected
      * @dataProvider naturalIntegerProvider
      */
-    public function testAsNaturalInteger(mixed $raw, int $expected): void
+    public function testAsNaturalInteger($raw, int $expected): void
     {
         $value = new Value($raw);
         self::assertSame($expected, $value->asNaturalInteger());
@@ -109,10 +111,10 @@ final class ValueTest extends TestCase
      * @psalm-param string|string[]|bool|null $raw
      * @dataProvider negativeIntegerOrNullProvider
      */
-    public function testFailAsNaturalInteger(mixed $raw): void
+    public function testFailAsNaturalInteger($raw): void
     {
         $value = new Value($raw);
-        $this->expectException(CoercionException::class);
+        $this->expectException(InvalidArgumentException::class);
         $value->asNaturalInteger();
     }
 
@@ -121,7 +123,7 @@ final class ValueTest extends TestCase
      * @psalm-param positive-int|0|null $expected
      * @dataProvider naturalIntegerOrNullProvider
      */
-    public function testAsNaturalIntegerOrNull(mixed $raw, ?int $expected): void
+    public function testAsNaturalIntegerOrNull($raw, ?int $expected): void
     {
         $value = new Value($raw);
         self::assertSame($expected, $value->asNaturalIntegerOrNull());
@@ -131,10 +133,10 @@ final class ValueTest extends TestCase
      * @psalm-param string|string[]|bool|null $raw
      * @dataProvider negativeIntegerProvider
      */
-    public function testFailAsNaturalIntegerOrNull(mixed $raw): void
+    public function testFailAsNaturalIntegerOrNull($raw): void
     {
         $value = new Value($raw);
-        $this->expectException(CoercionException::class);
+        $this->expectException(InvalidArgumentException::class);
         $value->asNaturalIntegerOrNull();
     }
 
@@ -142,7 +144,7 @@ final class ValueTest extends TestCase
      * @psalm-param string|string[]|bool|null $raw
      * @dataProvider stringProvider
      */
-    public function testAsString(mixed $raw, string $expected): void
+    public function testAsString($raw, string $expected): void
     {
         $value = new Value($raw);
         self::assertSame($expected, $value->asString());
@@ -152,7 +154,7 @@ final class ValueTest extends TestCase
      * @psalm-param string|string[]|bool|null $raw
      * @dataProvider stringOrNullProvider
      */
-    public function testAsStringOrNull(mixed $raw, ?string $expected): void
+    public function testAsStringOrNull($raw, ?string $expected): void
     {
         $value = new Value($raw);
         self::assertSame($expected, $value->asStringOrNull());
@@ -163,7 +165,7 @@ final class ValueTest extends TestCase
      * @psalm-param non-empty-string $expected
      * @dataProvider nonEmptyStringProvider
      */
-    public function testAsNonEmptyString(mixed $raw, string $expected): void
+    public function testAsNonEmptyString($raw, string $expected): void
     {
         $value = new Value($raw);
         self::assertSame($expected, $value->asStringOrNull());
@@ -173,10 +175,10 @@ final class ValueTest extends TestCase
      * @psalm-param string|string[]|bool|null $raw
      * @dataProvider emptyStringOrNullProvider
      */
-    public function testFailAsNonEmptyString(mixed $raw): void
+    public function testFailAsNonEmptyString($raw): void
     {
         $value = new Value($raw);
-        $this->expectException(CoercionException::class);
+        $this->expectException(InvalidArgumentException::class);
         $value->asNonEmptyString();
     }
 
@@ -185,7 +187,7 @@ final class ValueTest extends TestCase
      * @psalm-param non-empty-string|null $expected
      * @dataProvider nonEmptyStringOrNullProvider
      */
-    public function testAsNonEmptyStringOrNull(mixed $raw, ?string $expected): void
+    public function testAsNonEmptyStringOrNull($raw, ?string $expected): void
     {
         $value = new Value($raw);
         self::assertSame($expected, $value->asNonEmptyStringOrNull());
@@ -195,10 +197,10 @@ final class ValueTest extends TestCase
      * @psalm-param string|string[]|bool|null $raw
      * @dataProvider emptyStringProvider
      */
-    public function testFailAsNonEmptyStringOrNull(mixed $raw): void
+    public function testFailAsNonEmptyStringOrNull($raw): void
     {
         $value = new Value($raw);
-        $this->expectException(CoercionException::class);
+        $this->expectException(InvalidArgumentException::class);
         $value->asNonEmptyStringOrNull();
     }
 
@@ -207,7 +209,7 @@ final class ValueTest extends TestCase
      * @psalm-param non-empty-string $expected
      * @dataProvider nonEmptyStringProvider
      */
-    public function testAsNonEmptyStrings(mixed $raw, string $expected): void
+    public function testAsNonEmptyStrings($raw, string $expected): void
     {
         $value = new Value([$raw, $raw]);
         self::assertSame([$expected, $expected], $value->asNonEmptyStrings());
@@ -217,82 +219,48 @@ final class ValueTest extends TestCase
      * @psalm-param string|string[]|bool|null $raw
      * @dataProvider emptyStringOrNullProvider
      */
-    public function testFailAsNonEmptyStrings(mixed $raw): void
+    public function testFailAsNonEmptyStrings($raw): void
     {
         $value = new Value([$raw, $raw]);
-        $this->expectException(CoercionException::class);
+        $this->expectException(InvalidArgumentException::class);
         $value->asNonEmptyStrings();
-    }
-
-    /** @dataProvider numericProvider */
-    public function testAsNumeric(string $raw, int|float $expected): void
-    {
-        $value = new Value($raw);
-        self::assertEquals($expected, $value->asNumeric());
-    }
-
-    public function testAsNumericFailsForString(): void
-    {
-        $value = new Value('non-empty-string');
-        $this->expectException(CoercionException::class);
-        $value->asNumeric();
-    }
-
-    /** @dataProvider numericProvider */
-    public function testAsNumericOrNull(string|null $raw, int|float|null $expected): void
-    {
-        $value = new Value($raw);
-        self::assertEquals($expected, $value->asNumericOrNull());
     }
 
     /**
      * @dataProvider dateTimeProvider
      *
+     * @psalm-param mixed $raw
      * @psalm-param class-string|null $expectedException
      */
-    public function testAsDateTimeImmutable(mixed $raw, string $format, string $expectedInAtoMFormat): void
+    public function testAsDateTimeImmutable($raw, ?string $expectedException, $expected, ?string $format): void
     {
         $value = new Value($raw);
-        self::assertEquals(
-            $expectedInAtoMFormat,
-            $value->asDateTimeImmutable($format)->format(\DateTimeInterface::ATOM)
-        );
-    }
 
-    public function testAsDateTimeImmutableFailsForNull(): void
-    {
-        $value = new Value(null);
+        if ($expectedException !== null) {
+            $this->expectException($expectedException);
+        }
 
-        $this->expectException(CoercionException::class);
-        $value->asDateTimeImmutable('Y-m-d');
-    }
+        $date = $value->asDateTimeImmutable($format);
 
-    public function testAsDateTimeImmutableFailsForWrongFormat(): void
-    {
-        $value = new Value('06.02.2023');
-
-        $this->expectException(CoercionException::class);
-        $value->asDateTimeImmutable('Y-m-d');
+        self::assertSame($expected, $date->format(DateTimeInterface::RSS));
     }
 
     public static function dateTimeProvider(): iterable
     {
-        yield [
-            '2023-02-06',
-            '!Y-m-d+',
-            '2023-02-06T00:00:00+00:00'
-        ];
-        yield [
-            '2023-02-06T11:42:52+01:00',
-            \DateTimeInterface::ATOM,
-            '2023-02-06T11:42:52+01:00'
-        ];
+        yield [null, InvalidArgumentException::class, null, null];
+        yield [1234, InvalidArgumentException::class, null, null];
+        yield ['blub', TypeError::class, null, null];
+        yield ['20221111', null, 'Fri, 11 Nov 2022 00:00:00 +0000', null];
+        yield ['2022-11-11', null, 'Fri, 11 Nov 2022 00:00:00 +0000', null];
+        yield ['2022-11-11T05:06:07+01:00', null, 'Fri, 11 Nov 2022 05:06:07 +0100', null];
+        yield ['2022-11-11', TypeError::class, null, DateTimeInterface::ATOM];
+        yield ['2022-11-11T03:04:02+00:00', null, 'Fri, 11 Nov 2022 03:04:02 +0000', DateTimeInterface::ATOM];
     }
 
     /**
      * @psalm-return iterable<array{
-     *     bool,
-     *     bool,
+     *     0: bool,
+     *     1: bool,
      * }>
      */
     public static function booleanProvider(): iterable
@@ -303,8 +271,8 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-return iterable<array{
-     *     bool|null,
-     *     bool|null,
+     *     0: bool|null,
+     *     1: bool|null,
      * }>
      */
     public static function booleanOrNullProvider(): iterable
@@ -315,8 +283,8 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-return iterable<array{
-     *     non-empty-string,
-     *     int,
+     *     0: non-empty-string,
+     *     1: int,
      * }>
      */
     public static function integerProvider(): iterable
@@ -327,8 +295,8 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-return iterable<array{
-     *     non-empty-string|null,
-     *     int|null,
+     *     0: non-empty-string|null,
+     *     1: int|null,
      * }>
      */
     public static function integerOrNullProvider(): iterable
@@ -339,8 +307,8 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-return iterable<array{
-     *     '0',
-     *     0,
+     *     0: '0',
+     *     1: 0,
      * }>
      */
     private static function zeroIntegerProvider(): iterable
@@ -350,8 +318,8 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-return iterable<array{
-     *     non-empty-string,
-     *     positive-int,
+     *     0: non-empty-string,
+     *     1: positive-int,
      * }>
      */
     public static function positiveIntegerProvider(): iterable
@@ -361,8 +329,8 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-return iterable<array{
-     *     non-empty-string|null,
-     *     int|null,
+     *     0: non-empty-string|null,
+     *     1: int|null,
      * }>
      */
     public static function positiveIntegerOrNullProvider(): iterable
@@ -373,8 +341,8 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-return iterable<array{
-     *     non-empty-string,
-     *     positive-int|0,
+     *     0: non-empty-string,
+     *     1: positive-int|0,
      * }>
      */
     public static function naturalIntegerProvider(): iterable
@@ -391,8 +359,8 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-return iterable<array{
-     *     non-empty-string,
-     *     int,
+     *     0: non-empty-string,
+     *     1: int,
      * }>
      */
     public static function negativeIntegerProvider(): iterable
@@ -402,8 +370,8 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-return iterable<array{
-     *     non-empty-string|null,
-     *     int|null,
+     *     0: non-empty-string|null,
+     *     1: int|null,
      * }>
      */
     public static function negativeIntegerOrNullProvider(): iterable
@@ -414,8 +382,8 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-return iterable<array{
-     *     non-empty-string,
-     *     int,
+     *     0: non-empty-string,
+     *     1: int,
      * }>
      */
     public static function nonPositiveIntegerProvider(): iterable
@@ -426,8 +394,8 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-return iterable<array{
-     *     non-empty-string|null,
-     *     int|null,
+     *     0: non-empty-string|null,
+     *     1: int|null,
      * }>
      */
     public static function nonPositiveIntegerOrNullProvider(): iterable
@@ -438,8 +406,8 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-return iterable<array{
-     *     string,
-     *     string,
+     *     0: string,
+     *     1: string,
      * }>
      */
     public static function stringProvider(): iterable
@@ -450,8 +418,8 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-return iterable<array{
-     *     string|null,
-     *     string|null,
+     *     0: string|null,
+     *     1: string|null,
      * }>
      */
     public static function stringOrNullProvider(): iterable
@@ -462,8 +430,8 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-return iterable<array{
-     *     string,
-     *     string,
+     *     0: string,
+     *     1: string,
      * }>
      */
     public static function emptyStringProvider(): iterable
@@ -473,8 +441,8 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-return iterable<array{
-     *     string|null,
-     *     string|null,
+     *     0: string|null,
+     *     1: string|null,
      * }>
      */
     public static function emptyStringOrNullProvider(): iterable
@@ -485,8 +453,8 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-return iterable<array{
-     *     non-empty-string,
-     *     non-empty-string,
+     *     0: non-empty-string,
+     *     1: non-empty-string,
      * }>
      */
     public static function nonEmptyStringProvider(): iterable
@@ -502,8 +470,8 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-return iterable<array{
-     *     non-empty-string|null,
-     *     non-empty-string|null,
+     *     0: non-empty-string|null,
+     *     1: non-empty-string|null,
      * }>
      */
     public static function nonEmptyStringOrNullProvider(): iterable
@@ -514,27 +482,12 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-return iterable<array{
-     *     null,
-     *     null,
+     *     0: null,
+     *     1: null,
      * }>
      */
-    public static function nullProvider(): iterable
+    private static function nullProvider(): iterable
     {
         yield [null, null];
-    }
-
-    /** @psalm-return iterable<array{non-empty-string, float|int}> */
-    public static function numericProvider(): iterable
-    {
-        yield from self::integerProvider();
-        yield ['-1.1', -1.1];
-        yield ['1.1', 1.1];
-    }
-
-    /** @psalm-return iterable<array{non-empty-string|null, float|int|null}> */
-    public static function numericOrNullProvider(): iterable
-    {
-        yield from self::nullProvider();
-        yield from self::numericProvider();
     }
 }
