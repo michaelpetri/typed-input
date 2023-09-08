@@ -19,7 +19,7 @@ final class ValueTest extends TestCase
     public function testAsBoolean($raw, bool $expected): void
     {
         $value = new Value($raw);
-        self::assertEquals($expected, $value->asBoolean());
+        self::assertSame($expected, $value->asBoolean());
     }
 
     /**
@@ -29,7 +29,7 @@ final class ValueTest extends TestCase
     public function testAsBooleanOrNull($raw, ?bool $expected): void
     {
         $value = new Value($raw);
-        self::assertEquals($expected, $value->asBooleanOrNull());
+        self::assertSame($expected, $value->asBooleanOrNull());
     }
 
     /**
@@ -39,7 +39,7 @@ final class ValueTest extends TestCase
     public function testAsInteger($raw, int $expected): void
     {
         $value = new Value($raw);
-        self::assertEquals($expected, $value->asInteger());
+        self::assertSame($expected, $value->asInteger());
     }
 
     /**
@@ -49,7 +49,7 @@ final class ValueTest extends TestCase
     public function testAsIntegerOrNull($raw, ?int $expected): void
     {
         $value = new Value($raw);
-        self::assertEquals($expected, $value->asIntegerOrNull());
+        self::assertSame($expected, $value->asIntegerOrNull());
     }
 
     /**
@@ -60,7 +60,7 @@ final class ValueTest extends TestCase
     public function testAsPositiveInteger($raw, int $expected): void
     {
         $value = new Value($raw);
-        self::assertEquals($expected, $value->asPositiveInteger());
+        self::assertSame($expected, $value->asPositiveInteger());
     }
 
     /**
@@ -82,7 +82,7 @@ final class ValueTest extends TestCase
     public function testAsPositiveIntegerOrNull($raw, ?int $expected): void
     {
         $value = new Value($raw);
-        self::assertEquals($expected, $value->asPositiveIntegerOrNull());
+        self::assertSame($expected, $value->asPositiveIntegerOrNull());
     }
 
     /**
@@ -104,7 +104,7 @@ final class ValueTest extends TestCase
     public function testAsNaturalInteger($raw, int $expected): void
     {
         $value = new Value($raw);
-        self::assertEquals($expected, $value->asNaturalInteger());
+        self::assertSame($expected, $value->asNaturalInteger());
     }
 
     /**
@@ -126,7 +126,7 @@ final class ValueTest extends TestCase
     public function testAsNaturalIntegerOrNull($raw, ?int $expected): void
     {
         $value = new Value($raw);
-        self::assertEquals($expected, $value->asNaturalIntegerOrNull());
+        self::assertSame($expected, $value->asNaturalIntegerOrNull());
     }
 
     /**
@@ -147,7 +147,7 @@ final class ValueTest extends TestCase
     public function testAsString($raw, string $expected): void
     {
         $value = new Value($raw);
-        self::assertEquals($expected, $value->asString());
+        self::assertSame($expected, $value->asString());
     }
 
     /**
@@ -157,7 +157,7 @@ final class ValueTest extends TestCase
     public function testAsStringOrNull($raw, ?string $expected): void
     {
         $value = new Value($raw);
-        self::assertEquals($expected, $value->asStringOrNull());
+        self::assertSame($expected, $value->asStringOrNull());
     }
 
     /**
@@ -168,7 +168,7 @@ final class ValueTest extends TestCase
     public function testAsNonEmptyString($raw, string $expected): void
     {
         $value = new Value($raw);
-        self::assertEquals($expected, $value->asStringOrNull());
+        self::assertSame($expected, $value->asStringOrNull());
     }
 
     /**
@@ -190,7 +190,7 @@ final class ValueTest extends TestCase
     public function testAsNonEmptyStringOrNull($raw, ?string $expected): void
     {
         $value = new Value($raw);
-        self::assertEquals($expected, $value->asNonEmptyStringOrNull());
+        self::assertSame($expected, $value->asNonEmptyStringOrNull());
     }
 
     /**
@@ -212,7 +212,7 @@ final class ValueTest extends TestCase
     public function testAsNonEmptyStrings($raw, string $expected): void
     {
         $value = new Value([$raw, $raw]);
-        self::assertEquals([$expected, $expected], $value->asNonEmptyStrings());
+        self::assertSame([$expected, $expected], $value->asNonEmptyStrings());
     }
 
     /**
@@ -242,7 +242,7 @@ final class ValueTest extends TestCase
 
         $date = $value->asDateTimeImmutable($format);
 
-        self::assertEquals($expected, $date->format(DateTimeInterface::RSS));
+        self::assertSame($expected, $date->format(DateTimeInterface::RSS));
     }
 
     public static function dateTimeProvider(): iterable
