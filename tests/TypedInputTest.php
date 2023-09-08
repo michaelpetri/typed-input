@@ -27,7 +27,7 @@ final class TypedInputTest extends TestCase
         $input = new ArrayInput(['--my-option' => 'my-value'], $definition);
 
         $typedInput = TypedInput::fromInput($input);
-        self::assertEquals('my-value', $typedInput->getOption('my-option')->asNonEmptyString());
+        self::assertSame('my-value', $typedInput->getOption('my-option')->asNonEmptyString());
     }
 
     public function testGetArgument(): void
@@ -43,6 +43,6 @@ final class TypedInputTest extends TestCase
         $input = new ArrayInput(['my-argument' => 'my-value'], $definition);
 
         $typedInput = TypedInput::fromInput($input);
-        self::assertEquals('my-value', $typedInput->getArgument('my-argument')->asNonEmptyString());
+        self::assertSame('my-value', $typedInput->getArgument('my-argument')->asNonEmptyString());
     }
 }
