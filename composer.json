@@ -28,5 +28,8 @@
         "psr-4": {
             "MichaelPetri\\TypedInput\\Tests\\": "tests/"
         }
+    },
+    "conflict": {
+        "stevebauman/unfinalize": "*"
     }
 }
