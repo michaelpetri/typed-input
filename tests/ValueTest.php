@@ -7,16 +7,18 @@ namespace MichaelPetri\TypedInput\Tests;
 use DateTimeInterface;
 use InvalidArgumentException;
 use MichaelPetri\TypedInput\Value;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use TypeError;
 
+#[CoversClass(Value::class)]
 final class ValueTest extends TestCase
 {
     /**
      * @psalm-param string|string[]|bool|null $raw
-     * @dataProvider booleanProvider
      */
-    public function testAsBoolean($raw, bool $expected): void
+    #[DataProvider('booleanProvider')]
+    public function testAsBoolean(mixed $raw, bool $expected): void
     {
         $value = new Value($raw);
         self::assertSame($expected, $value->asBoolean());
@@ -24,9 +26,9 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-param string|string[]|bool|null $raw
-     * @dataProvider booleanOrNullProvider
      */
-    public function testAsBooleanOrNull($raw, ?bool $expected): void
+    #[DataProvider('booleanOrNullProvider')]
+    public function testAsBooleanOrNull(mixed $raw, ?bool $expected): void
     {
         $value = new Value($raw);
         self::assertSame($expected, $value->asBooleanOrNull());
@@ -34,9 +36,9 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-param string|string[]|bool|null $raw
-     * @dataProvider integerProvider
      */
-    public function testAsInteger($raw, int $expected): void
+    #[DataProvider('integerProvider')]
+    public function testAsInteger(mixed $raw, int $expected): void
     {
         $value = new Value($raw);
         self::assertSame($expected, $value->asInteger());
@@ -44,9 +46,9 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-param string|string[]|bool|null $raw
-     * @dataProvider integerProvider
      */
-    public function testAsIntegerOrNull($raw, ?int $expected): void
+    #[DataProvider('integerOrNullProvider')]
+    public function testAsIntegerOrNull(mixed $raw, ?int $expected): void
     {
         $value = new Value($raw);
         self::assertSame($expected, $value->asIntegerOrNull());
@@ -55,9 +57,9 @@ final class ValueTest extends TestCase
     /**
      * @psalm-param string|string[]|bool|null $raw
      * @psalm-param positive-int $expected
-     * @dataProvider positiveIntegerProvider
      */
-    public function testAsPositiveInteger($raw, int $expected): void
+    #[DataProvider('positiveIntegerProvider')]
+    public function testAsPositiveInteger(mixed $raw, int $expected): void
     {
         $value = new Value($raw);
         self::assertSame($expected, $value->asPositiveInteger());
@@ -65,9 +67,9 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-param string|string[]|bool|null $raw
-     * @dataProvider nonPositiveIntegerOrNullProvider
      */
-    public function testFailAsPositiveInteger($raw): void
+    #[DataProvider('nonPositiveIntegerOrNullProvider')]
+    public function testFailAsPositiveInteger(mixed $raw, mixed $_expected = null): void
     {
         $value = new Value($raw);
         $this->expectException(InvalidArgumentException::class);
@@ -77,9 +79,9 @@ final class ValueTest extends TestCase
     /**
      * @psalm-param string|string[]|bool|null $raw
      * @psalm-param positive-int|null $expected
-     * @dataProvider positiveIntegerOrNullProvider
      */
-    public function testAsPositiveIntegerOrNull($raw, ?int $expected): void
+    #[DataProvider('positiveIntegerOrNullProvider')]
+    public function testAsPositiveIntegerOrNull(mixed $raw, ?int $expected): void
     {
         $value = new Value($raw);
         self::assertSame($expected, $value->asPositiveIntegerOrNull());
@@ -87,9 +89,9 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-param string|string[]|bool|null $raw
-     * @dataProvider nonPositiveIntegerProvider
      */
-    public function testFailAsPositiveIntegerOrNull($raw): void
+    #[DataProvider('nonPositiveIntegerProvider')]
+    public function testFailAsPositiveIntegerOrNull(mixed $raw, mixed $_expected = null): void
     {
         $value = new Value($raw);
         $this->expectException(InvalidArgumentException::class);
@@ -98,10 +100,10 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-param string|string[]|bool|null $raw
-     * @psalm-param positive-int|0 $expected
-     * @dataProvider naturalIntegerProvider
+     * @psalm-param non-negative-int $expected
      */
-    public function testAsNaturalInteger($raw, int $expected): void
+    #[DataProvider('naturalIntegerProvider')]
+    public function testAsNaturalInteger(mixed $raw, int $expected): void
     {
         $value = new Value($raw);
         self::assertSame($expected, $value->asNaturalInteger());
@@ -109,9 +111,9 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-param string|string[]|bool|null $raw
-     * @dataProvider negativeIntegerOrNullProvider
      */
-    public function testFailAsNaturalInteger($raw): void
+    #[DataProvider('negativeIntegerOrNullProvider')]
+    public function testFailAsNaturalInteger(mixed $raw, mixed $_expected = null): void
     {
         $value = new Value($raw);
         $this->expectException(InvalidArgumentException::class);
@@ -120,10 +122,10 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-param string|string[]|bool|null $raw
-     * @psalm-param positive-int|0|null $expected
-     * @dataProvider naturalIntegerOrNullProvider
+     * @psalm-param non-negative-int|null $expected
      */
-    public function testAsNaturalIntegerOrNull($raw, ?int $expected): void
+    #[DataProvider('naturalIntegerOrNullProvider')]
+    public function testAsNaturalIntegerOrNull(mixed $raw, ?int $expected): void
     {
         $value = new Value($raw);
         self::assertSame($expected, $value->asNaturalIntegerOrNull());
@@ -131,9 +133,9 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-param string|string[]|bool|null $raw
-     * @dataProvider negativeIntegerProvider
      */
-    public function testFailAsNaturalIntegerOrNull($raw): void
+    #[DataProvider('negativeIntegerProvider')]
+    public function testFailAsNaturalIntegerOrNull(mixed $raw, mixed $_expected = null): void
     {
         $value = new Value($raw);
         $this->expectException(InvalidArgumentException::class);
@@ -142,9 +144,9 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-param string|string[]|bool|null $raw
-     * @dataProvider stringProvider
      */
-    public function testAsString($raw, string $expected): void
+    #[DataProvider('stringProvider')]
+    public function testAsString(mixed $raw, string $expected): void
     {
         $value = new Value($raw);
         self::assertSame($expected, $value->asString());
@@ -152,9 +154,9 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-param string|string[]|bool|null $raw
-     * @dataProvider stringOrNullProvider
      */
-    public function testAsStringOrNull($raw, ?string $expected): void
+    #[DataProvider('stringOrNullProvider')]
+    public function testAsStringOrNull(mixed $raw, ?string $expected): void
     {
         $value = new Value($raw);
         self::assertSame($expected, $value->asStringOrNull());
@@ -163,19 +165,19 @@ final class ValueTest extends TestCase
     /**
      * @psalm-param string|string[]|bool|null $raw
      * @psalm-param non-empty-string $expected
-     * @dataProvider nonEmptyStringProvider
      */
-    public function testAsNonEmptyString($raw, string $expected): void
+    #[DataProvider('nonEmptyStringProvider')]
+    public function testAsNonEmptyString(mixed $raw, string $expected): void
     {
         $value = new Value($raw);
-        self::assertSame($expected, $value->asStringOrNull());
+        self::assertSame($expected, $value->asNonEmptyString());
     }
 
     /**
      * @psalm-param string|string[]|bool|null $raw
-     * @dataProvider emptyStringOrNullProvider
      */
-    public function testFailAsNonEmptyString($raw): void
+    #[DataProvider('emptyStringOrNullProvider')]
+    public function testFailAsNonEmptyString(mixed $raw, mixed $_expected = null): void
     {
         $value = new Value($raw);
         $this->expectException(InvalidArgumentException::class);
@@ -185,9 +187,9 @@ final class ValueTest extends TestCase
     /**
      * @psalm-param string|string[]|bool|null $raw
      * @psalm-param non-empty-string|null $expected
-     * @dataProvider nonEmptyStringOrNullProvider
      */
-    public function testAsNonEmptyStringOrNull($raw, ?string $expected): void
+    #[DataProvider('nonEmptyStringOrNullProvider')]
+    public function testAsNonEmptyStringOrNull(mixed $raw, ?string $expected): void
     {
         $value = new Value($raw);
         self::assertSame($expected, $value->asNonEmptyStringOrNull());
@@ -195,9 +197,9 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-param string|string[]|bool|null $raw
-     * @dataProvider emptyStringProvider
      */
-    public function testFailAsNonEmptyStringOrNull($raw): void
+    #[DataProvider('emptyStringProvider')]
+    public function testFailAsNonEmptyStringOrNull(mixed $raw, mixed $_expected = null): void
     {
         $value = new Value($raw);
         $this->expectException(InvalidArgumentException::class);
@@ -207,9 +209,9 @@ final class ValueTest extends TestCase
     /**
      * @psalm-param string|string[]|bool|null $raw
      * @psalm-param non-empty-string $expected
-     * @dataProvider nonEmptyStringProvider
      */
-    public function testAsNonEmptyStrings($raw, string $expected): void
+    #[DataProvider('nonEmptyStringProvider')]
+    public function testAsNonEmptyStrings(mixed $raw, string $expected): void
     {
         $value = new Value([$raw, $raw]);
         self::assertSame([$expected, $expected], $value->asNonEmptyStrings());
@@ -217,9 +219,9 @@ final class ValueTest extends TestCase
 
     /**
      * @psalm-param string|string[]|bool|null $raw
-     * @dataProvider emptyStringOrNullProvider
      */
-    public function testFailAsNonEmptyStrings($raw): void
+    #[DataProvider('emptyStringOrNullProvider')]
+    public function testFailAsNonEmptyStrings(mixed $raw, mixed $_expected = null): void
     {
         $value = new Value([$raw, $raw]);
         $this->expectException(InvalidArgumentException::class);
@@ -227,12 +229,30 @@ final class ValueTest extends TestCase
     }
 
     /**
-     * @dataProvider dateTimeProvider
-     *
-     * @psalm-param mixed $raw
-     * @psalm-param class-string|null $expectedException
+     * @psalm-param string|string[]|bool|null $raw
      */
-    public function testAsDateTimeImmutable($raw, ?string $expectedException, $expected, ?string $format): void
+    #[DataProvider('numericProvider')]
+    public function testAsNumeric(mixed $raw, float|int $expected): void
+    {
+        $value = new Value($raw);
+        self::assertSame($expected, $value->asNumeric());
+    }
+
+    /**
+     * @psalm-param string|string[]|bool|null $raw
+     */
+    #[DataProvider('numericOrNullProvider')]
+    public function testAsNumericOrNull(mixed $raw, float|int|null $expected): void
+    {
+        $value = new Value($raw);
+        self::assertSame($expected, $value->asNumericOrNull());
+    }
+
+    /**
+     * @psalm-param class-string<\Throwable>|null $expectedException
+     */
+    #[DataProvider('dateTimeProvider')]
+    public function testAsDateTimeImmutable(mixed $raw, ?string $expectedException, mixed $expected, ?string $format): void
     {
         $value = new Value($raw);
 
@@ -249,11 +269,11 @@ final class ValueTest extends TestCase
     {
         yield [null, InvalidArgumentException::class, null, null];
         yield [1234, InvalidArgumentException::class, null, null];
-        yield ['blub', TypeError::class, null, null];
+        yield ['blub', InvalidArgumentException::class, null, null];
         yield ['20221111', null, 'Fri, 11 Nov 2022 00:00:00 +0000', null];
         yield ['2022-11-11', null, 'Fri, 11 Nov 2022 00:00:00 +0000', null];
         yield ['2022-11-11T05:06:07+01:00', null, 'Fri, 11 Nov 2022 05:06:07 +0100', null];
-        yield ['2022-11-11', TypeError::class, null, DateTimeInterface::ATOM];
+        yield ['2022-11-11', InvalidArgumentException::class, null, DateTimeInterface::ATOM];
         yield ['2022-11-11T03:04:02+00:00', null, 'Fri, 11 Nov 2022 03:04:02 +0000', DateTimeInterface::ATOM];
     }
 
@@ -342,7 +362,7 @@ final class ValueTest extends TestCase
     /**
      * @psalm-return iterable<array{
      *     0: non-empty-string,
-     *     1: positive-int|0,
+     *     1: non-negative-int,
      * }>
      */
     public static function naturalIntegerProvider(): iterable
@@ -478,6 +498,27 @@ final class ValueTest extends TestCase
     {
         yield from self::nonEmptyStringProvider();
         yield from self::nullProvider();
+    }
+
+    public static function numericOrNullProvider(): iterable
+    {
+        yield from self::numericProvider();
+        yield from self::nullProvider();
+    }
+
+    /**
+     * @psalm-return iterable<array{
+     *     0: non-empty-string,
+     *     1: float|int,
+     * }>
+     */
+    public static function numericProvider(): iterable
+    {
+        yield ['1', 1];
+        yield ['1.1', 1.1];
+        yield ['0', 0];
+        yield ['-1', -1];
+        yield ['-1.1', -1.1];
     }
 
     /**

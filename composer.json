@@ -9,15 +9,16 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
-        "symfony/console": "^5.2 || ^6.0 || ^7.0",
-        "webmozart/assert": "^1.11"
+        "php": "~8.4.0 || ~8.5.0",
+        "symfony/console": "^7.0 || ^8.0",
+        "azjezz/psl": "^4.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0",
-        "phpunit/phpunit": "^10.1.1",
+        "phpunit/phpunit": "^12.0",
         "roave/security-advisories": "dev-latest",
-        "vimeo/psalm": "^5.1"
+        "vimeo/psalm": "^6.0",
+        "php-standard-library/psalm-plugin": "^2.3"
     },
     "autoload": {
         "psr-4": {
