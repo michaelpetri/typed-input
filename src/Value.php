@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace MichaelPetri\TypedInput;
 
 use DateTimeImmutable;
+use InvalidArgumentException;
+use Psl\Type\Exception\CoercionException;
+use Throwable;
 
 use function Psl\Type\bool;
 use function Psl\Type\instance_of;
@@ -18,151 +21,212 @@ use function Psl\Type\uint;
 use function Psl\Type\vec;
 
 /** @psalm-immutable */
-final class Value
+final readonly class Value
 {
-    public function __construct(private readonly mixed $value)
+    public function __construct(private mixed $value)
     {
     }
 
     /**
+     * @throws InvalidArgumentException
      * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
      * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
      */
     public function asBoolean(): bool
     {
-        return bool()->coerce(
-            $this->value
-        );
+        try {
+            return bool()->coerce(
+                $this->value
+            );
+        } catch (CoercionException $e) {
+            throw new InvalidArgumentException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     /**
+     * @throws InvalidArgumentException
      * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
      * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
      */
     public function asBooleanOrNull(): ?bool
     {
-        return nullable(bool())->coerce(
-            $this->value
-        );
+        try {
+            return nullable(bool())->coerce(
+                $this->value
+            );
+        } catch (CoercionException $e) {
+            throw new InvalidArgumentException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     /**
+     * @throws InvalidArgumentException
      * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
      * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
      */
     public function asInteger(): int
     {
-        return int()->coerce(
-            $this->value
-        );
+        try {
+            return int()->coerce(
+                $this->value
+            );
+        } catch (CoercionException $e) {
+            throw new InvalidArgumentException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     /**
+     * @throws InvalidArgumentException
      * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
      * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
      */
     public function asIntegerOrNull(): ?int
     {
-        return nullable(int())->coerce(
-            $this->value
-        );
+        try {
+            return nullable(int())->coerce(
+                $this->value
+            );
+        } catch (CoercionException $e) {
+            throw new InvalidArgumentException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     /**
+     * @throws InvalidArgumentException
      * @psalm-return positive-int
      * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
      * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
      */
     public function asPositiveInteger(): int
     {
-        return positive_int()->coerce(
-            $this->value
-        );
+        try {
+            return positive_int()->coerce(
+                $this->value
+            );
+        } catch (CoercionException $e) {
+            throw new InvalidArgumentException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     /**
+     * @throws InvalidArgumentException
      * @psalm-return positive-int|null
      * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
      * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
      */
     public function asPositiveIntegerOrNull(): ?int
     {
-        return nullable(positive_int())->coerce(
-            $this->value
-        );
+        try {
+            return nullable(positive_int())->coerce(
+                $this->value
+            );
+        } catch (CoercionException $e) {
+            throw new InvalidArgumentException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     /**
-     * @psalm-return positive-int|0
+     * @throws InvalidArgumentException
+     * @psalm-return non-negative-int
      * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
      * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
      */
     public function asNaturalInteger(): int
     {
-        return uint()->coerce(
-            $this->value
-        );
+        try {
+            return uint()->coerce(
+                $this->value
+            );
+        } catch (CoercionException $e) {
+            throw new InvalidArgumentException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     /**
-     * @psalm-return positive-int|0|null
+     * @throws InvalidArgumentException
+     * @psalm-return non-negative-int|null
      * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
      * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
      */
     public function asNaturalIntegerOrNull(): ?int
     {
-        return nullable(uint())->coerce(
-            $this->value
-        );
+        try {
+            return nullable(uint())->coerce(
+                $this->value
+            );
+        } catch (CoercionException $e) {
+            throw new InvalidArgumentException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     /**
+     * @throws InvalidArgumentException
      * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
      * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
      */
     public function asString(): string
     {
-        return string()->coerce(
-            $this->value
-        );
+        try {
+            return string()->coerce(
+                $this->value
+            );
+        } catch (CoercionException $e) {
+            throw new InvalidArgumentException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     /**
+     * @throws InvalidArgumentException
      * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
      * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
      */
     public function asStringOrNull(): ?string
     {
-        return nullable(string())->coerce(
-            $this->value
-        );
+        try {
+            return nullable(string())->coerce(
+                $this->value
+            );
+        } catch (CoercionException $e) {
+            throw new InvalidArgumentException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     /**
+     * @throws InvalidArgumentException
      * @psalm-return non-empty-string
      * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
      * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
      */
     public function asNonEmptyString(): string
     {
-        return non_empty_string()->coerce(
-            $this->value
-        );
+        try {
+            return non_empty_string()->coerce(
+                $this->value
+            );
+        } catch (CoercionException $e) {
+            throw new InvalidArgumentException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     /**
+     * @throws InvalidArgumentException
      * @psalm-return non-empty-string|null
      * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
      * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
      */
     public function asNonEmptyStringOrNull(): ?string
     {
-        return nullable(non_empty_string())->coerce(
-            $this->value
-        );
+        try {
+            return nullable(non_empty_string())->coerce(
+                $this->value
+            );
+        } catch (CoercionException $e) {
+            throw new InvalidArgumentException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     /**
+     * @throws InvalidArgumentException
      * @psalm-return list<non-empty-string>
      * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
      * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
@@ -170,44 +234,79 @@ final class Value
      */
     public function asNonEmptyStrings(): array
     {
-        return vec(non_empty_string())->coerce(
-            $this->value
-        );
+        try {
+            return vec(non_empty_string())->coerce(
+                $this->value
+            );
+        } catch (CoercionException $e) {
+            throw new InvalidArgumentException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     /**
+     * @throws InvalidArgumentException
      * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
      * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
      */
     public function asNumeric(): float|int
     {
-        return num()->coerce(
-            $this->value
-        );
+        try {
+            return num()->coerce(
+                $this->value
+            );
+        } catch (CoercionException $e) {
+            throw new InvalidArgumentException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     /**
+     * @throws InvalidArgumentException
      * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
      * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
      */
     public function asNumericOrNull(): float|int|null
     {
-        return nullable(num())->coerce(
-            $this->value
-        );
+        try {
+            return nullable(num())->coerce(
+                $this->value
+            );
+        } catch (CoercionException $e) {
+            throw new InvalidArgumentException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     /**
-     * @param non-empty-string $format
+     * @param non-empty-string|null $format
+     * @throws InvalidArgumentException
      * @psalm-suppress ImpureFunctionCall because we know PSL Type is pure
      * @psalm-suppress ImpureMethodCall because we know PSL Type is pure
      */
-    public function asDateTimeImmutable(string $format): DateTimeImmutable
+    public function asDateTimeImmutable(?string $format = null): DateTimeImmutable
     {
-        $value = $this->asString();
+        try {
+            $value = $this->asString();
 
-        return instance_of(\DateTimeImmutable::class)->coerce(
-            DateTimeImmutable::createFromFormat($format, $value)
-        );
+            if (null === $format && \is_numeric($value) && \strlen($value) < 8) {
+                throw new InvalidArgumentException('Numeric strings are not supported as dates without a format.');
+            }
+
+            try {
+                $dateTime = null !== $format
+                    ? DateTimeImmutable::createFromFormat($format, $value)
+                    : new DateTimeImmutable($value);
+            } catch (Throwable $e) {
+                throw new InvalidArgumentException($e->getMessage(), (int) $e->getCode(), $e);
+            }
+
+            if (false === $dateTime) {
+                throw new InvalidArgumentException('Failed to parse date string.');
+            }
+
+            return instance_of(DateTimeImmutable::class)->coerce(
+                $dateTime
+            );
+        } catch (CoercionException $e) {
+            throw new InvalidArgumentException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 }
